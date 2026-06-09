@@ -1,0 +1,12 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { fetchAuthors } from "../api/client";
+import { useFetch } from "../hooks/useFetch";
+const AboutPage = () => {
+    const { data: authors, loading, error } = useFetch(() => fetchAuthors().then((json) => json.data), []);
+    return (_jsxs("div", { className: "about-page", children: [_jsxs("div", { className: "about-page__hero", children: [_jsxs("div", { children: [_jsx("p", { className: "section__eyebrow", children: "Independent travel journal" }), _jsxs("h1", { className: "about-page__title", children: ["We go places.", _jsx("br", {}), "We write things."] }), _jsx("p", { className: "about-page__sub", children: "Wanderlust is an independent travel and lifestyle publication run by three friends who couldn't stop travelling and decided to write about it instead of getting proper jobs. No sponsored posts. No affiliate links. Just honest stories from the road." })] }), _jsx("div", { className: "about-page__photo", "aria-hidden": "true" })] }), _jsx("div", { className: "about-page__values", children: [
+                    { icon: "01", title: "Honest writing", desc: "We only write about places we've actually been. Revolutionary, we know." },
+                    { icon: "02", title: "Diverse perspectives", desc: "Three writers, three very different takes on the same planet." },
+                    { icon: "03", title: "No sponsored content", desc: "Nobody pays us to say nice things. That keeps us honest and occasionally broke." },
+                ].map((v) => (_jsxs("div", { className: "value-card", children: [_jsx("span", { className: "value-card__icon", children: v.icon }), _jsx("h3", { className: "value-card__title", children: v.title }), _jsx("p", { className: "value-card__desc", children: v.desc })] }, v.title))) }), _jsx("h2", { className: "about-page__team-title", children: "The writers" }), loading && _jsx("div", { className: "loading", children: "Loading writers..." }), error && _jsx("div", { className: "not-found", children: _jsx("h2", { children: "Could not load authors." }) }), authors && (_jsx("div", { className: "about-page__team", children: authors.map((author) => (_jsxs("div", { className: "author-card", children: [_jsx("img", { src: author.avatar, alt: author.name, className: "author-card__avatar" }), _jsx("h3", { className: "author-card__name", children: author.name }), _jsx("p", { className: "author-card__bio", children: author.bio })] }, author.id))) }))] }));
+};
+export default AboutPage;

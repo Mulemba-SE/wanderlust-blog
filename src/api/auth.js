@@ -1,0 +1,70 @@
+const BASE_URL = import.meta.env.DEV
+    ? "/api"
+    : import.meta.env.VITE_API_URL
+        ? `${import.meta.env.VITE_API_URL}/api`
+        : "http://localhost:4000/api";
+export async function login(email, password) {
+    const res = await fetch(`${BASE_URL}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+    });
+    if (!res.ok) {
+        const err = await res.json().catch(() => ({ message: "Login failed." }));
+        throw new Error(err.message ?? "Login failed.");
+    }
+    const { token } = await res.json();
+    localStorage.setItem("token", token);
+    return token;
+}
+export function logout() {
+    localStorage.removeItem("token");
+}
+export async function forgotPassword(email) {
+    const res = await fetch(`${BASE_URL}/auth/forgot-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+    });
+    if (!res.ok) {
+        const err = await res.json().catch(() => ({ message: "Forgot password request failed." }));
+        throw new Error(err.message ?? "Forgot password request failed.");
+    }
+    return res.json();
+}
+export async function resetPassword(token, password) {
+    const res = await fetch(`${BASE_URL}/auth/reset-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token, newPassword: password }),
+    });
+    if (!res.ok) {
+        const err = await res.json().catch(() => ({ message: "Password reset failed." }));
+        throw new Error(err.message ?? "Password reset failed.");
+    }
+    return res.json();
+}
+export function getToken() {
+    return localStorage.getItem("token");
+}
+export function getTokenPayload() {
+    const token = getToken();
+    if (!token)
+        return null;
+    const parts = token.split(".");
+    if (parts.length !== 3)
+        return null;
+    try {
+        return JSON.parse(atob(parts[1]));
+    }
+    catch {
+        return null;
+    }
+}
+export function isAuthenticated() {
+    return !!getToken();
+}
+export function isAdmin() {
+    const payload = getTokenPayload();
+    return payload?.role === "admin";
+}
