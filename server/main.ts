@@ -8,7 +8,7 @@ async function main() {
 
   await ensureResetTokenColumns();
 
-  const PORT = 4000;
+  const PORT = Number.parseInt(process.env.PORT ?? "4000", 10);
   const allowedOrigins = getAllowedOrigins();
   const app = createApp({ allowedOrigins });
 

@@ -4,7 +4,7 @@ const BASE_URL = import.meta.env.DEV
     ? "/api"
     : import.meta.env.VITE_API_URL
         ? `${import.meta.env.VITE_API_URL}/api`
-        : "http://localhost:4000/api";
+        : "/api";
 // Shared error type.
 // Thrown when the server responds with 401. App.tsx catches this and signs
 // the user out, rather than leaving them stuck on a broken page.

@@ -7,11 +7,6 @@ const REQUIRED_ENV_VARS = [
     "JWT_SECRET",
     "ALLOWED_ORIGINS",
     "ADMIN_EMAIL",
-    "SMTP_HOST",
-    "SMTP_PORT",
-    "SMTP_USER",
-    "SMTP_PASS",
-    "EMAIL_FROM",
 ];
 export function getMissingEnvVars(env = process.env) {
     return REQUIRED_ENV_VARS.filter((key) => !env[key]);

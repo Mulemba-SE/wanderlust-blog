@@ -5,7 +5,7 @@ const BASE_URL = import.meta.env.DEV
     ? "/api"
     : import.meta.env.VITE_API_URL
         ? `${import.meta.env.VITE_API_URL}/api`
-        : "http://localhost:4000/api";
+        : "/api";
 const SetupPage = () => {
     const navigate = useNavigate();
     const [form, setForm] = useState({ name: "", email: "", password: "" });

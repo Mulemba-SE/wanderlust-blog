@@ -1,10 +1,12 @@
 import nodemailer from "nodemailer";
 import { getEmailFrom, getSmtpConfig } from "../config/env";
-const smtpConfig = getSmtpConfig();
-if (!smtpConfig.host || !smtpConfig.port || !smtpConfig.auth?.user || !smtpConfig.auth?.pass) {
-    throw new Error("SMTP configuration is incomplete. Please set SMTP_HOST, SMTP_PORT, SMTP_USER, and SMTP_PASS.");
+function createTransporter() {
+    const smtpConfig = getSmtpConfig();
+    if (!smtpConfig.host || !smtpConfig.port || !smtpConfig.auth?.user || !smtpConfig.auth?.pass) {
+        return null;
+    }
+    return nodemailer.createTransport(smtpConfig);
 }
-const transporter = nodemailer.createTransport(smtpConfig);
 export async function sendPasswordResetEmail(email, resetLink) {
     const from = getEmailFrom();
     const message = {
@@ -19,5 +21,10 @@ export async function sendPasswordResetEmail(email, resetLink) {
       <p>If you did not request this change, you can safely ignore this email.</p>
     `,
     };
+    const transporter = createTransporter();
+    if (!transporter) {
+        console.warn("SMTP is not configured. Password reset link:", resetLink);
+        return;
+    }
     await transporter.sendMail(message);
 }
