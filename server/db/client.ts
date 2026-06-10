@@ -1,8 +1,5 @@
 import { Pool } from "pg";
 
-console.log("DATABASE_URL present:", !!process.env.DATABASE_URL);
-console.log("PGHOST:", process.env.PGHOST);
-
 function getPoolConfig() {
   if (process.env.DATABASE_URL) {
     return {

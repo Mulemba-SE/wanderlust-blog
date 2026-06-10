@@ -225,11 +225,12 @@ router.post("/auth/login", async (req, res) => {
       return res.status(401).json({ message: "Invalid email or password." });
     }
 
-    const seededAdminEmail = getAdminEmail();
-    const role = seededAdminEmail && admin.email === seededAdminEmail ? "admin" : "editor";
-
+    // Use the role stored in the database rather than re-deriving it from
+    // ADMIN_EMAIL. This means roles assigned at seed time (or via the DB
+    // directly) are respected, and promoting a user to "admin" in the DB
+    // takes effect on their next login without any code change.
     const token = jwt.sign(
-      { id: admin.id, email: admin.email, role, name: admin.name },
+      { id: admin.id, email: admin.email, role: admin.role, name: admin.name },
       process.env.JWT_SECRET as string,
       { expiresIn: "8h" }
     );

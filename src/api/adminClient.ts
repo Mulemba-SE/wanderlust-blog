@@ -8,11 +8,7 @@ import { getToken } from "./auth";
 import { UnauthorizedError } from "./client";
 import { Post } from "../types";
 
-const BASE_URL = import.meta.env.DEV
-  ? "/api"
-  : import.meta.env.VITE_API_URL
-  ? `${import.meta.env.VITE_API_URL}/api`
-  : "/api";
+const BASE_URL = "/api";
 
 // Core fetch wrapper.
 
