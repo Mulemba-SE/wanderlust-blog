@@ -82,7 +82,7 @@ img { display: block; width: 100%; }
 }
 
 .nav-toggle { display: none; }
-.nav-close { display: flex; }
+.nav-close { display: none; }
 .nav-logo__mark,
 .logo-w {
   display: grid;
@@ -1031,4 +1031,5 @@ img { display: block; width: 100%; }
   0%   { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+
 
